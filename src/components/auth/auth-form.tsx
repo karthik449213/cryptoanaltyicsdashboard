@@ -23,6 +23,7 @@ function SubmitButton({ label }: { label: string }) {
       type="submit"
       disabled={pending}
       className="mt-2 inline-flex h-11 w-full items-center justify-center rounded-lg border border-neon-cyan/40 bg-gradient-to-r from-neon-cyan/20 to-neon-purple/20 text-sm font-semibold text-slate-100 transition hover:border-neon-cyan/70 disabled:cursor-not-allowed disabled:opacity-60"
+      suppressHydrationWarning
     >
       {pending ? "Processing..." : label}
     </button>
@@ -45,7 +46,7 @@ export function AuthForm({
       <h1 className="text-xl font-semibold text-slate-100">{title}</h1>
       <p className="mt-2 text-sm text-slate-400">{subtitle}</p>
 
-      <form action={formAction} className="mt-6 space-y-4">
+      <form action={formAction} className="mt-6 space-y-4" suppressHydrationWarning>
         <div>
           <label htmlFor="email" className="mb-2 block text-xs font-medium uppercase tracking-wide text-slate-400">
             Email
@@ -58,6 +59,7 @@ export function AuthForm({
             required
             className="h-11 w-full rounded-lg border border-slate-700/60 bg-bg-800/70 px-3 text-sm text-slate-100 outline-none transition focus:border-neon-cyan/60"
             placeholder="you@company.com"
+            suppressHydrationWarning
           />
         </div>
         <div>
@@ -73,6 +75,7 @@ export function AuthForm({
             required
             className="h-11 w-full rounded-lg border border-slate-700/60 bg-bg-800/70 px-3 text-sm text-slate-100 outline-none transition focus:border-neon-purple/60"
             placeholder="Minimum 8 characters"
+            suppressHydrationWarning
           />
         </div>
 

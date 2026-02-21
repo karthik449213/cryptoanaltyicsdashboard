@@ -33,10 +33,14 @@ export async function fetchLivePrices(ids: string[]) {
   return payload.data;
 }
 
-export async function fetchTopMarkets() {
-  const payload = await fetchJson<ApiResponse<CoinMarket[]>>(
-    "/api/market/markets?vsCurrency=usd&page=1&perPage=20",
-  );
+export async function fetchTopMarkets(vsCurrency = "usd", page = 1, perPage = 20) {
+  const query = new URLSearchParams({
+    vsCurrency: String(vsCurrency),
+    page: String(page),
+    perPage: String(perPage),
+  });
+
+  const payload = await fetchJson<ApiResponse<CoinMarket[]>>(`/api/market/markets?${query.toString()}`);
   return payload.data;
 }
 

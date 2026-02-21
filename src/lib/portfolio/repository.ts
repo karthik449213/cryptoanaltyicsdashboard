@@ -1,5 +1,5 @@
-import { User } from "@supabase/supabase-js";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
+import { getCurrentUser, AppUser } from "@/lib/auth/service";
 import { CreateHoldingInput, Holding, HoldingRecord, UpdateHoldingInput } from "@/types/portfolio";
 import {
   PortfolioError,
@@ -22,17 +22,11 @@ function mapHolding(record: HoldingRecord): Holding {
   };
 }
 
-async function requireUser(): Promise<User> {
-  const supabase = await createSupabaseServerClient();
-  const {
-    data: { user },
-    error,
-  } = await supabase.auth.getUser();
-
-  if (error || !user) {
+async function requireUser(): Promise<AppUser> {
+  const user = await getCurrentUser();
+  if (!user) {
     throw new PortfolioUnauthorizedError();
   }
-
   return user;
 }
 

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { LayoutDashboard, BarChart3 } from "lucide-react";
+import { LayoutDashboard, BarChart3, Bell } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 type SidebarProps = {
@@ -10,6 +10,7 @@ type SidebarProps = {
 const navItems = [
   { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
   { href: "/charts", label: "Analytics", icon: BarChart3 },
+  { href: "/alerts", label: "Alerts", icon: Bell },
 ] as const;
 
 export function Sidebar({ open, onClose }: SidebarProps) {
