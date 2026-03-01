@@ -1,0 +1,60 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Interval {
+  monthly
+  yearly
+}
+
+enum SubscriptionStatus {
+  active
+  canceled
+  expired
+  trial
+}
+
+model User {
+  id        String    @id @default(cuid())
+  email     String    @unique
+  password  String
+  role      String    @default("user")
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  subscriptions Subscription[]
+}
+
+model Plan {
+  id        String   @id @default(cuid())
+  name      String
+  price     Int
+  interval  Interval
+  features  Json
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  subscriptions Subscription[]
+}
+
+model Subscription {
+  id                     String              @id @default(cuid())
+  user                   User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId                 String
+  plan                   Plan                @relation(fields: [planId], references: [id], onDelete: Cascade)
+  planId                 String
+  status                 SubscriptionStatus  @default(trial)
+  provider               String
+  providerCustomerId     String?
+  providerSubscriptionId String?
+  currentPeriodEnd       DateTime?
+  createdAt              DateTime            @default(now())
+  updatedAt              DateTime            @updatedAt
+}
